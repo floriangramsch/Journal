@@ -12,7 +12,7 @@ export default function NewEntry() {
       body: JSON.stringify({ content, happiness }),
     });
     const data = await response.json();
-    return data;
+    window.location.reload();
   };
 
   const [content, setContent] = useState("");
