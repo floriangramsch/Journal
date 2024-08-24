@@ -39,7 +39,7 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className="flex min-h-screen flex-col items-center justify-between p-24 bg-green-500">
+      <body className="flex flex-col min-h-screen items-center justify-center bg-bg text-text">
         {children}
       </body>
     </html>

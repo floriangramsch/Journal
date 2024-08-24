@@ -9,7 +9,7 @@ export default function Entry({
 }) {
   const formattedDate = date.toLocaleDateString();
   return (
-    <div className="bg-green-300 my-2 p-1 shadow rounded">
+    <div className="bg-fg my-1 p-1 shadow rounded max-h-32 w-96 overflow-auto">
       <div>{formattedDate}</div>
       <div>{content}</div>
     </div>
