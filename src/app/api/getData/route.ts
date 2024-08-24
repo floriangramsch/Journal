@@ -2,15 +2,6 @@
 import { getDataFromDatabase } from "@/database/database";
 import { NextResponse } from "next/server";
 
-export default async function handler(req: any, res: any) {
-  if (req.method === "GET") {
-    const data = await getDataFromDatabase();
-    res.status(200).json(data);
-  } else {
-    res.setHeader("Allow", ["GET"]);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
-}
 export async function GET(req: any, res: any) {
   try {
     const data = await getDataFromDatabase();

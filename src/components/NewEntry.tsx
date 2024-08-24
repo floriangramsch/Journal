@@ -16,7 +16,7 @@ export default function NewEntry() {
   };
 
   const [content, setContent] = useState("");
-  const [happiness, setHappiness] = useState(1);
+  const [happiness, setHappiness] = useState(5);
 
   return (
     <div className="flex flex-col items-center space-y-5">
@@ -27,14 +27,18 @@ export default function NewEntry() {
           onChange={(e) => setContent(e.target.value)}
           autoFocus={true}
         />
-        <input
-          className="rounded shadow text-center bg-text text-black focus:outline-fg"
-          type="range"
-          min={1}
-          max={10}
-          value={happiness}
-          onChange={(e) => setHappiness(Number(e.target.value))}
-        />
+        <div className="flex space-x-2 ">
+          <div>{happiness}</div>
+
+          <input
+            className="w-full appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-black/25 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-[25px] [&::-webkit-slider-thumb]:w-[25px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-fg"
+            type="range"
+            min={1}
+            max={10}
+            value={happiness}
+            onChange={(e) => setHappiness(Number(e.target.value))}
+          />
+        </div>
       </div>
       <button
         className="rounded-md bg-fg w-20 p-2 m-1 text-xl"
