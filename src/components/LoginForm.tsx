@@ -43,11 +43,10 @@ export default function LoginForm({
       localStorage.setItem("isLoggedIn", "false");
       setAuthenticated(false);
     }
-    // window.location.reload();
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center justify-center h-screen">
       <input
         className="rounded-xl shadow p-3 bg-text text-black focus:outline-fg"
         type="password"
