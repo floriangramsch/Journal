@@ -3,9 +3,10 @@
 import NewEntry from "@/components/NewEntry";
 import { useEffect, useState } from "react";
 import EntryList from "./EntryList";
+import { TEntry } from "@/helper/types";
 
 const Home = ({ authenticated }: { authenticated: boolean }) => {
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<TEntry[]>();
   const [showEntryList, setShowEntryList] = useState<boolean>(false);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const Home = ({ authenticated }: { authenticated: boolean }) => {
       >
         Einträge
       </button>
-      {showEntryList ? <EntryList data={data} /> : <NewEntry />}
+      {data && showEntryList ? <EntryList data={data} /> : <NewEntry />}
       {/* <div className="flex overflow-x-auto snap-x snap-mandatory">
         <EntryList data={data} />
         <NewEntry />
