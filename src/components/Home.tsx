@@ -1,38 +1,43 @@
 "use client";
 
 import NewEntry from "@/components/NewEntry";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EntryList from "./EntryList";
 import { TEntry } from "@/helper/types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-const fetchEntries = async () => {
-  const response = await fetch('/api/getData', { cache: 'no-store' });
+// Fetch-Funktion für die Einträge
+const fetchEntries = async (): Promise<TEntry[]> => {
+  // Hier explizit Promise<TEntry[]> definieren
+  const response = await fetch("/api/getData", { cache: "no-store" });
   if (!response.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error("Network response was not ok");
   }
-  return response.json();
+  const data = await response.json();
+
+  // Optional: Überprüfen, ob die Datenstruktur korrekt ist
+  if (!Array.isArray(data.data)) {
+    throw new Error("Invalid data format");
+  }
+
+  return data.data;
 };
 
 const Home = ({ authenticated }: { authenticated: boolean }) => {
-  const [data, setData] = useState<TEntry[]>();
   const [showEntryList, setShowEntryList] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (authenticated) {
-      const fetchData = async () => {
-        const response = await fetch("/api/getData", { cache: "no-store" });
-        const result = await response.json();
-        setData(result.data);
-      };
-      // fetch("/api/getData", { cache: "no-store" })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     setData(data.data);
-      //   });
-      fetchData();
-    }
-  }, [authenticated]);
+  // Verwende useQuery, um die Daten zu laden
+  const { data, error, isLoading, refetch } = useQuery<TEntry[]>({
+    queryKey: ["entries"], // Der Schlüssel, unter dem die Daten gespeichert werden
+    queryFn: fetchEntries, // Die Funktion, um die Daten zu laden
+    enabled: authenticated, // Die Abfrage wird nur ausgeführt, wenn der Benutzer authentifiziert ist
+    staleTime: 0, // Die Daten gelten sofort als veraltet
+    // cacheTime: 0, // Kein Cache für diese Abfrage
+  });
+
+  // Fehler- und Ladebehandlung
+  if (isLoading) return <div>Lädt...</div>;
+  if (error) return <div>Fehler: {error.message}</div>;
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -42,11 +47,12 @@ const Home = ({ authenticated }: { authenticated: boolean }) => {
       >
         Einträge
       </button>
-      {data && showEntryList ? <EntryList data={data} /> : <NewEntry />}
-      {/* <div className="flex overflow-x-auto snap-x snap-mandatory">
+      {data && showEntryList ? (
         <EntryList data={data} />
-        <NewEntry />
-      </div> */}
+      ) : (
+        <NewEntry onNewEntry={refetch} />
+      )}{" "}
+      {/* Refetch wird nach dem Hinzufügen eines neuen Eintrags aufgerufen */}
     </div>
   );
 };

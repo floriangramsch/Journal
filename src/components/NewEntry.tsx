@@ -2,17 +2,25 @@
 
 import { useState } from "react";
 
-export default function NewEntry() {
+// Neue Typen für Props
+type NewEntryProps = {
+  onNewEntry: () => void; // Callback, um nach dem Erstellen eines neuen Eintrags die Daten neu abzurufen
+};
+
+export default function NewEntry({ onNewEntry }: NewEntryProps) {
   const createEntry = async (content: string, happiness: number) => {
-    const response = await fetch("/api/create ", {
+    const response = await fetch("/api/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ content, happiness }),
     });
-    const data = await response.json();
-    window.location.reload();
+    if (!response.ok) {
+      throw new Error("Fehler beim Erstellen des Eintrags");
+    }
+    // Nach dem Erstellen des Eintrags wird die onNewEntry-Funktion aufgerufen
+    onNewEntry();
   };
 
   const [content, setContent] = useState("");
@@ -29,7 +37,6 @@ export default function NewEntry() {
         />
         <div className="flex space-x-2 ">
           <div>{happiness}</div>
-
           <input
             className="w-full appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-black/25 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-[25px] [&::-webkit-slider-thumb]:w-[25px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-fg"
             type="range"
