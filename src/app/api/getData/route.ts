@@ -2,18 +2,17 @@
 import { getDataFromDatabase } from "@/database/database";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    // const data = await getDataFromDatabase();
-    const res = NextResponse.json({ data: await getDataFromDatabase() });
-    res.headers.set("Cache-Control", "no-store");
-    return res;
-
-    // return NextResponse.json({ data: data });
+    const data = await getDataFromDatabase();
+    console.log("Daten aus der DB:", data); // Debugging
+    const response = NextResponse.json({ data });
+    response.headers.set("Cache-Control", "no-store, max-age=0");
+    return response;
   } catch (error) {
-    console.error("Error getting data:", error);
+    console.error("Fehler beim Abrufen der Daten:", error);
     return NextResponse.json(
-      { message: "Error getting data." },
+      { message: "Fehler beim Abrufen der Daten." },
       { status: 500 }
     );
   }
