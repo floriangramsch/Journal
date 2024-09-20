@@ -1,7 +1,7 @@
 "use client";
 
 import NewEntry from "@/components/NewEntry";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EntryList from "./EntryList";
 import { TEntry } from "@/helper/types";
 import { useQuery } from "@tanstack/react-query";
@@ -36,6 +36,12 @@ const Home = ({ authenticated }: { authenticated: boolean }) => {
   // Fehler- und Ladebehandlung
   if (isLoading) return <div>Lädt...</div>;
   if (error) return <div>Fehler: {error.message}</div>;
+
+  useEffect(() => {
+    if (authenticated) {
+      refetch();
+    }
+  }, [authenticated, refetch]);
 
   return (
     <div className="flex flex-col items-center justify-center">
