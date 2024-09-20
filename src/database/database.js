@@ -10,7 +10,7 @@ const pool = mysql.createPool({
 
 export const getDataFromDatabase = async () => {
   const [rows] = await pool.query("SELECT * FROM journal_entry ORDER BY date DESC");
-  console.log('data', data)
+  console.log('data', rows)
   return rows;
 };
 
