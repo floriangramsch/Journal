@@ -4,6 +4,15 @@ import NewEntry from "@/components/NewEntry";
 import { useEffect, useState } from "react";
 import EntryList from "./EntryList";
 import { TEntry } from "@/helper/types";
+import { useQuery } from "@tanstack/react-query";
+
+const fetchEntries = async () => {
+  const response = await fetch('/api/getData', { cache: 'no-store' });
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+};
 
 const Home = ({ authenticated }: { authenticated: boolean }) => {
   const [data, setData] = useState<TEntry[]>();
