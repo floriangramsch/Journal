@@ -9,7 +9,16 @@ const pool = mysql.createPool({
 });
 
 export const getDataFromDatabase = async () => {
-  const [rows] = await pool.query("SELECT * FROM journal_entry ORDER BY date DESC");
+  const pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+  });
+  const [rows] = await pool.query(
+    "SELECT * FROM journal_entry ORDER BY date DESC"
+  );
+  await pool.end(); // Pool schließen, um sicherzustellen, dass keine alten Verbindungen verwendet werden
   return rows;
 };
 
