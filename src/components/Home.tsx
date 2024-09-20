@@ -4,11 +4,9 @@ import NewEntry from "@/components/NewEntry";
 import { useState } from "react";
 import EntryList from "./EntryList";
 import { TEntry } from "@/helper/types";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
-// Fetch-Funktion für die Einträge
 const fetchEntries = async (): Promise<TEntry[]> => {
-  // Hier explizit Promise<TEntry[]> definieren
   const response = await fetch("/api/getData", { cache: "no-store" });
   if (!response.ok) {
     throw new Error("Network response was not ok");
@@ -28,11 +26,11 @@ const Home = ({ authenticated }: { authenticated: boolean }) => {
 
   // Verwende useQuery, um die Daten zu laden
   const { data, error, isLoading, refetch } = useQuery<TEntry[]>({
-    queryKey: ["entries"], // Der Schlüssel, unter dem die Daten gespeichert werden
-    queryFn: fetchEntries, // Die Funktion, um die Daten zu laden
-    enabled: authenticated, // Die Abfrage wird nur ausgeführt, wenn der Benutzer authentifiziert ist
+    queryKey: ["entries"],
+    queryFn: fetchEntries,
+    enabled: authenticated,
     staleTime: 0, // Die Daten gelten sofort als veraltet
-    // cacheTime: 0, // Kein Cache für diese Abfrage
+    gcTime: 0, // Kein Cache für diese Abfrage
   });
 
   // Fehler- und Ladebehandlung
