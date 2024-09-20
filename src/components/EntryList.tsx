@@ -1,7 +1,13 @@
+'use client'
+
 import { TEntry } from "@/helper/types";
 import Entry from "./Entry";
 
-export default function EntryList({ data }: { data: TEntry[] }) {
+type EntryListProps = {
+  data: TEntry[] | undefined;
+};
+
+export default function EntryList({ data }: EntryListProps) {
   return (
     <div className="mt-10">
       {data &&

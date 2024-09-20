@@ -4,9 +4,12 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const data = await getDataFromDatabase();
+    // const data = await getDataFromDatabase();
+    const res = NextResponse.json({ data: await getDataFromDatabase() });
+    res.headers.set("Cache-Control", "no-store");
+    return res;
 
-    return NextResponse.json({ data: data });
+    // return NextResponse.json({ data: data });
   } catch (error) {
     console.error("Error getting data:", error);
     return NextResponse.json(
