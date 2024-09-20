@@ -11,6 +11,7 @@ const Home = ({ authenticated }: { authenticated: boolean }) => {
 
   useEffect(() => {
     if (authenticated) {
+      console.log("test");
       fetch("/api/getData")
         .then((res) => res.json())
         .then((data) => {

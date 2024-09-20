@@ -2,7 +2,14 @@
 import { getDataFromDatabase } from "@/database/database";
 import { NextResponse } from "next/server";
 
-export async function GET(req: any, res: any) {
+export async function GET(res: any) {
+  res.setHeader(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate"
+  );
+  res.setHeader("Expires", "0");
+  res.setHeader("Pragma", "no-cache");
+
   try {
     const data = await getDataFromDatabase();
 
