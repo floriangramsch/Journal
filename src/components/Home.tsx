@@ -11,7 +11,7 @@ const Home = ({ authenticated }: { authenticated: boolean }) => {
 
   useEffect(() => {
     if (authenticated) {
-      fetch("/api/getData", { next: { revalidate: 0 } })
+      fetch("/api/getData", { cache: "no-store" })
         .then((res) => res.json())
         .then((data) => {
           setData(data.data);
