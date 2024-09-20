@@ -37,12 +37,6 @@ const Home = ({ authenticated }: { authenticated: boolean }) => {
   if (isLoading) return <div>Lädt...</div>;
   if (error) return <div>Fehler: {error.message}</div>;
 
-  useEffect(() => {
-    if (authenticated) {
-      refetch();
-    }
-  }, [authenticated, refetch]);
-
   return (
     <div className="flex flex-col items-center justify-center">
       <button

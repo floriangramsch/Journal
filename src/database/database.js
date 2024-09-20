@@ -12,6 +12,7 @@ export const getDataFromDatabase = async () => {
   const [rows] = await pool.query(
     "SELECT * FROM journal_entry ORDER BY date DESC"
   );
+  console.log("database query", rows);
   return rows;
 };
 
@@ -20,7 +21,6 @@ export const autheticate = async (password) => {
     "SELECT password FROM User where name = ?",
     "Flo"
   );
-  console.log("database query", rows);
   return rows[0].password === password;
 };
 
