@@ -1,4 +1,4 @@
-export default function Entry({
+const Entry = ({
   date,
   content,
   happiness,
@@ -6,7 +6,7 @@ export default function Entry({
   date: Date;
   content: string;
   happiness: number;
-}) {
+}) => {
   const formattedDate = date.toLocaleDateString();
 
   const formatDate = (date: Date) => {
@@ -31,4 +31,6 @@ export default function Entry({
       <div className="text-sm">{content}</div>
     </div>
   );
-}
+};
+
+export default Entry;

@@ -7,8 +7,8 @@ type NewEntryProps = {
   onNewEntry: () => void; // Callback, um nach dem Erstellen eines neuen Eintrags die Daten neu abzurufen
 };
 
-export default function NewEntry({ onNewEntry }: NewEntryProps) {
-  const createEntry = async (content: string, happiness: number) => {
+const NewEntry = ({ onNewEntry }: NewEntryProps) => {
+  const createEntry = async () => {
     const response = await fetch("/api/create", {
       method: "POST",
       headers: {
@@ -21,6 +21,8 @@ export default function NewEntry({ onNewEntry }: NewEntryProps) {
     }
     // Nach dem Erstellen des Eintrags wird die onNewEntry-Funktion aufgerufen
     onNewEntry();
+    setContent("");
+    setHappiness(5);
   };
 
   const [content, setContent] = useState("");
@@ -49,10 +51,12 @@ export default function NewEntry({ onNewEntry }: NewEntryProps) {
       </div>
       <button
         className="rounded-md bg-fg w-20 p-2 m-1 text-xl"
-        onClick={() => createEntry(content, happiness)}
+        onClick={createEntry}
       >
         Submit
       </button>
     </div>
   );
-}
+};
+
+export default NewEntry;

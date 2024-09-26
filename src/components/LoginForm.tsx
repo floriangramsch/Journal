@@ -2,16 +2,18 @@
 
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-export default function LoginForm({
+export const LoginForm = ({
   setAuthenticated,
 }: {
   setAuthenticated: Dispatch<SetStateAction<boolean>>;
-}) {
+}) => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    const authed = localStorage.getItem("isLoggedIn") === "true";
-    setAuthenticated(authed);
+    const token = localStorage.getItem("token");
+    if (token) {
+      setAuthenticated(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -37,10 +39,10 @@ export default function LoginForm({
     });
     const data = await response.json();
     if (data.result) {
-      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("token", data.token);
       setAuthenticated(true);
     } else {
-      localStorage.setItem("isLoggedIn", "false");
+      localStorage.removeItem("token");
       setAuthenticated(false);
     }
   };
@@ -58,4 +60,4 @@ export default function LoginForm({
       </button>
     </div>
   );
-}
+};

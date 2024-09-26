@@ -7,7 +7,7 @@ type EntryListProps = {
   data: TEntry[]; // Optionaler Typ, falls data `undefined` sein könnte
 };
 
-export default function EntryList({ data }: EntryListProps) {
+export const EntryList = ({ data }: EntryListProps) => {
   if (!data || data.length === 0) {
     return <div>Keine Einträge vorhanden</div>; // Fallback, falls keine Daten
   }
@@ -24,4 +24,6 @@ export default function EntryList({ data }: EntryListProps) {
       ))}
     </div>
   );
-}
+};
+
+export default EntryList;

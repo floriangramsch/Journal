@@ -5,21 +5,29 @@ import { useEffect, useState } from "react";
 import EntryList from "./EntryList";
 import { TEntry } from "@/helper/types";
 import { useQuery } from "@tanstack/react-query";
+import fetchEntries from "@/app/lib/getData";
 
-const fetchEntries = async (): Promise<TEntry[]> => {
-  const response = await fetch("/api/getData", { cache: "no-store" });
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  const data = await response.json();
+// const fetchEntries = async (): Promise<TEntry[]> => {
+//   const token = localStorage.getItem("token");
+//   const response = await fetch("/api/getData", {
+//     method: "GET",
+//     headers: {
+//       Authorization: `Bearer ${token}`, // Token im Authorization-Header senden
+//     },
+//     cache: "no-store",
+//   });
+//   if (!response.ok) {
+//     throw new Error("Network response was not ok");
+//   }
+//   const data = await response.json();
 
-  // Optional: Überprüfen, ob die Datenstruktur korrekt ist
-  if (!Array.isArray(data.data)) {
-    throw new Error("Invalid data format");
-  }
+//   // Optional: Überprüfen, ob die Datenstruktur korrekt ist
+//   if (!Array.isArray(data.data)) {
+//     throw new Error("Invalid data format");
+//   }
 
-  return data.data;
-};
+//   return data.data;
+// };
 
 const Home = ({ authenticated }: { authenticated: boolean }) => {
   const [showEntryList, setShowEntryList] = useState<boolean>(false);
@@ -50,7 +58,6 @@ const Home = ({ authenticated }: { authenticated: boolean }) => {
       ) : (
         <NewEntry onNewEntry={refetch} />
       )}{" "}
-      {/* Refetch wird nach dem Hinzufügen eines neuen Eintrags aufgerufen */}
     </div>
   );
 };
