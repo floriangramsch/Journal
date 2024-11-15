@@ -5,6 +5,9 @@ import jwt from "jsonwebtoken";
 export async function POST(req: Request) {
   const { password } = await req.json();
 
+  console.log("password", password);
+  console.log("SECRET_PASSWORD", process.env.SECRET_PASSWORD);
+  console.log("JWT_SECRET", process.env.JWT_SECRET);
   // Beispiel: Verifizierung des Passworts
   if (password === process.env.SECRET_PASSWORD) {
     // JWT generieren

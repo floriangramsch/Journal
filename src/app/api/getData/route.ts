@@ -24,7 +24,7 @@ export async function GET(req: Request) {
         throw new Error("JWT_SECRET is not defined");
       }
       const decoded = jwt.verify(token, secret);
-      console.log("User Info:", decoded); // Du kannst hier auf die im Token gespeicherten Daten zugreifen
+      console.log("User Info:", decoded);
 
       // Daten abrufen, nachdem das Token validiert wurde
       const data = await getDataFromDatabase();
@@ -36,15 +36,6 @@ export async function GET(req: Request) {
         { status: 403 }
       );
     }
-    const data = await getDataFromDatabase();
-    const response = NextResponse.json({ data });
-    // response.headers.set(
-    //   "Cache-Control",
-    //   "no-store, no-cache, must-revalidate, proxy-revalidate"
-    // );
-    // response.headers.set("Pragma", "no-cache");
-    // response.headers.set("Expires", "0");
-    return response;
   } catch (error) {
     console.error("Fehler beim Abrufen der Daten:", error);
     return NextResponse.json(
